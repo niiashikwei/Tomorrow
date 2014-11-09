@@ -1,12 +1,13 @@
 package com.ideaz.tomorrow;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
-import android.view.animation.RotateAnimation;
+import android.view.animation.Animation;
 
 
 public class MainActivity extends Activity {
@@ -18,7 +19,12 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         kickOffAnimation();
+    }
 
+    @Override
+    protected void onStart(){
+        super.onResume();
+        kickOffAnimation();
     }
 
     private void kickOffAnimation() {
@@ -27,9 +33,56 @@ public class MainActivity extends Activity {
         splashTextView.startAnimation(fadeOut);
         fadeIn.setDuration(2000);
         fadeIn.setFillAfter(true);
-        fadeOut.setDuration(4000);
+        fadeOut.setDuration(2000);
         fadeOut.setFillAfter(true);
-        fadeOut.setStartOffset(3000+fadeIn.getStartOffset());
+        fadeOut.setStartOffset(fadeIn.getDuration() + fadeIn.getStartOffset());
+        fadeOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {}
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+                if(!validProfile()){
+                    launchProfileSetup();
+                }
+
+                if(!preferencesValid()){
+                    launchPreferencesSetup();
+                }
+
+                if(preferencesValid() && validProfile()){
+                    launchActivityGetServerData();
+                }
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+    }
+
+    private void launchActivityGetServerData() {
+        Intent intent = new Intent(this, LoadingActivity.class);
+        startActivity(intent);
+    }
+
+    private void launchProfileSetup() {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
+    private void launchPreferencesSetup() {
+        Intent intent = new Intent(this, PreferencesActivity.class);
+        startActivity(intent);
+    }
+
+    private boolean preferencesValid() {
+        return true;
+    }
+
+    private boolean validProfile() {
+        return true;
     }
 
 
