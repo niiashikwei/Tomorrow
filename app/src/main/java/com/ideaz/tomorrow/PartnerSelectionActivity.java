@@ -2,14 +2,83 @@ package com.ideaz.tomorrow;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
-/**
- * Created by Thoughtworker on 11/6/14.
- */
+import com.ideaz.tomorrow.rest.service.ITomorrowService;
+import com.ideaz.tomorrow.rest.service.RestClient;
+import com.squareup.picasso.Picasso;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 public class PartnerSelectionActivity extends Activity {
+    ITomorrowService service;
+    ImageView userImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partner_selector);
+        service = new RestClient().getApiService();
+        userImage = (ImageView) findViewById(R.id.userImage);
+        attachListeners();
     }
+
+    private void attachListeners() {
+        setPassButtonListener();
+        setSelectButtonListener();
+        setInfoButtonListener();
+    }
+
+    private void setInfoButtonListener() {
+        ImageButton infoButton = (ImageButton) findViewById(R.id.infoButton);
+        infoButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                Callback callback = new Callback() {
+                    @Override
+                    public void success(Object o, Response response) {
+                        Log.d("network", "successful call");
+                    }
+
+                    @Override
+                    public void failure(RetrofitError retrofitError) {
+                        Log.d("network", "failed call");
+                    }
+                };
+
+                service.getNearbyUsers(112L,1L, 2L, callback);
+
+                return true;
+            }
+        });
+    }
+
+    private void setSelectButtonListener() {
+        ImageButton selectButton = (ImageButton) findViewById(R.id.selectButton);
+        selectButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                Picasso.with(PartnerSelectionActivity.this).load(R.drawable.user1).into(userImage);
+                return true;
+            }
+        });
+    }
+
+    private void setPassButtonListener() {
+        ImageButton passButton = (ImageButton) findViewById(R.id.passButton);
+        passButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                Picasso.with(PartnerSelectionActivity.this).load(R.drawable.user2).into(userImage);
+                return true;
+            }
+        });
+    }
+
 }
