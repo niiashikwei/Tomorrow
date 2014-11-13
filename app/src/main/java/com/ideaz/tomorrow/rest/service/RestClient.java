@@ -8,7 +8,7 @@ import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
 public class RestClient {
-    private static final String BASE_URL = "http://www.myserviceurl.com/";
+    private static final String BASE_URL = "http://10.0.2.2:3000";
     private ITomorrowService apiService;
 
     public RestClient()

@@ -16,8 +16,4 @@ public class User {
     @SerializedName("age")
     @Getter @Setter
     private Integer age;
-
-    @SerializedName("profilePicUrl")
-    @Getter @Setter
-    private String profilePicUrl;
 }
