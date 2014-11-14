@@ -7,9 +7,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
+import com.ideaz.tomorrow.rest.model.User;
 import com.ideaz.tomorrow.rest.service.ITomorrowService;
 import com.ideaz.tomorrow.rest.service.RestClient;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -36,10 +41,10 @@ public class PartnerSelectionActivity extends Activity {
     private void setInfoButtonListener() {
         ImageButton infoButton = (ImageButton) findViewById(R.id.infoButton);
         infoButton.setOnTouchListener(new View.OnTouchListener() {
-            Callback callback = new Callback() {
+            Callback<List<User>> getUsersCallback = new Callback<List<User>>() {
                 @Override
-                public void success(Object o, Response response) {
-                    Log.i("network:success", "successful call: "+ response.getBody() + "\n object: " + o);
+                public void success(List<User> users, Response response) {
+                    Log.i("network:success", "successful call: "+ response.getBody() + "\n users: " + users);
                 }
 
                 @Override
@@ -49,7 +54,7 @@ public class PartnerSelectionActivity extends Activity {
             };
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                service.getUsers(callback);
+                service.getUsers(getUsersCallback);
                 return true;
             }
         });
