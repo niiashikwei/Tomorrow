@@ -14,14 +14,17 @@ import com.ideaz.tomorrow.rest.service.RestClient;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.ListIterator;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
+
 public class PartnerSelectionActivity extends Activity {
-    ITomorrowService service;
-    ImageView userImage;
+    private ITomorrowService service;
+    private ImageView userImage;
+    private List<User> nearbyUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,7 @@ public class PartnerSelectionActivity extends Activity {
         service = new RestClient().getApiService();
         userImage = (ImageView) findViewById(R.id.userImage);
         attachListeners();
+        loadDefaultProfilePic();
     }
 
     private void attachListeners() {
@@ -38,26 +42,41 @@ public class PartnerSelectionActivity extends Activity {
         setInfoButtonListener();
     }
 
-    private void setInfoButtonListener() {
-        ImageButton infoButton = (ImageButton) findViewById(R.id.infoButton);
-        infoButton.setOnTouchListener(new View.OnTouchListener() {
-            Callback<List<User>> getUsersCallback = new Callback<List<User>>() {
+    private void loadNextUserIntoImageView() {
+        Log.i("network", "retrieving nearby users");
+        if(nearbyUsers == null){
+            service.getUsers(new Callback<List<User>>() {
                 @Override
                 public void success(List<User> users, Response response) {
-                    Log.i("network:success", "successful call: "+ response.getBody() + "\n users: " + users);
+                    Log.i("network:success", "retrieved nearby users");
+                    nearbyUsers = users;
+                    getNextUser();
                 }
 
                 @Override
                 public void failure(RetrofitError retrofitError) {
-                    Log.i("network:failure", "failed call: "+ retrofitError.getBody());
+                    Log.i("network:failure", "failed call, unable to retrieve nearby users");
                 }
-            };
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                service.getUsers(getUsersCallback);
-                return true;
-            }
-        });
+            });
+        } else {
+            getNextUser();
+        }
+    }
+
+    private void getNextUser() {
+        ListIterator<User> userListIterator = nearbyUsers.listIterator();
+        if(userListIterator.hasNext()) {
+            Log.i("loadNextUserIntoImageView", "loading from retrieved list");
+            User nextUser = userListIterator.next();
+            String profilePicUrl = nextUser.getProfilePicUrl();
+            Picasso.with(getApplicationContext()).load(profilePicUrl).into(userImage);
+        }else{
+            Log.i("loadNextUserIntoImageView", "no users retrieved from server");
+        }
+    }
+
+    private void loadDefaultProfilePic() {
+        Picasso.with(getApplicationContext()).load(R.drawable.user_image_default).into(userImage);
     }
 
     private void setSelectButtonListener() {
@@ -65,7 +84,7 @@ public class PartnerSelectionActivity extends Activity {
         selectButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                Picasso.with(PartnerSelectionActivity.this).load(R.drawable.user1).into(userImage);
+                loadNextUserIntoImageView();
                 return true;
             }
         });
@@ -76,7 +95,19 @@ public class PartnerSelectionActivity extends Activity {
         passButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                Picasso.with(PartnerSelectionActivity.this).load(R.drawable.user2).into(userImage);
+                loadNextUserIntoImageView();
+                return true;
+            }
+        });
+    }
+
+
+    private void setInfoButtonListener() {
+        ImageButton passButton = (ImageButton) findViewById(R.id.infoButton);
+        passButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                Log.i("network", "nearbyUsers: "+ nearbyUsers.toString());
                 return true;
             }
         });

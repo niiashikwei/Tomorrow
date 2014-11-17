@@ -1,19 +1,15 @@
 package com.ideaz.tomorrow.rest.model;
 
 import com.google.gson.annotations.SerializedName;
+import lombok.Data;
 
-import org.parceler.Parcel;
-
-import lombok.Getter;
-import lombok.Setter;
-
-@Parcel
+@Data
 public class User {
-    @SerializedName("name")
-    @Getter @Setter
-    private String name;
 
-    @SerializedName("age")
-    @Getter @Setter
+    private String name;
     private Integer age;
+
+    @SerializedName("profile_pic_url")
+    private String profilePicUrl;
+
 }
