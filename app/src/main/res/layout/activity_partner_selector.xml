@@ -8,7 +8,7 @@
         android:layout_height="0dp"
         android:layout_weight="0.9"
         android:id="@+id/userImage"
-        android:src="@drawable/ic_launcher"/>
+        android:src="@drawable/user_image_default"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:minHeight="100dp"
-            android:src="@drawable/ic_launcher"
+            android:src="@drawable/pass_button2"
             android:id="@+id/passButton"/>
 
         <ImageButton
@@ -29,7 +29,7 @@
             android:layout_gravity="center"
             android:minHeight="20dp"
             android:maxWidth="20dp"
-            android:src="@drawable/ic_launcher"
+            android:src="@drawable/question_mark"
             android:id="@+id/infoButton"/>
 
         <ImageButton
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:minHeight="100dp"
-            android:src="@drawable/ic_launcher"
+            android:src="@drawable/select_button2"
             android:id="@+id/selectButton"/>
     </LinearLayout>
 

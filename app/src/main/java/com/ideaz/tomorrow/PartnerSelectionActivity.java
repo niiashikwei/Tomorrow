@@ -2,8 +2,6 @@ package com.ideaz.tomorrow;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -19,6 +17,7 @@ import java.util.Stack;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import timber.log.Timber;
 
 
 public class PartnerSelectionActivity extends Activity {
@@ -30,11 +29,12 @@ public class PartnerSelectionActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partner_selector);
+        userImage = (ImageView) findViewById(R.id.userImage);
         service = new RestClient().getApiService();
         nearbyUsers = new Stack<User>();
-        userImage = (ImageView) findViewById(R.id.userImage);
         attachListeners();
         loadNextUserIntoImageView();
+        Timber.tag("LifeCycles");
     }
 
     @Override
@@ -50,19 +50,19 @@ public class PartnerSelectionActivity extends Activity {
     }
 
     private void loadNextUserIntoImageView() {
-        Log.i("network", "retrieving nearby users");
+        Timber.i("network", "retrieving nearby users");
         if(nearbyUsers.isEmpty()){
             service.getUsers(new Callback<List<User>>() {
                 @Override
                 public void success(List<User> users, Response response) {
-                    Log.i("network:success", "retrieved nearby users");
+                    Timber.i("network:success", "retrieved nearby users");
                     nearbyUsers.addAll(users);
                     displayNextUser();
                 }
 
                 @Override
                 public void failure(RetrofitError retrofitError) {
-                    Log.i("network:failure", "failed call, unable to retrieve nearby users");
+                    Timber.i("network:failure", "failed call, unable to retrieve nearby users");
                     loadDefaultProfilePic();
                 }
             });
@@ -73,12 +73,12 @@ public class PartnerSelectionActivity extends Activity {
 
     private void displayNextUser() {
         if(!nearbyUsers.isEmpty()) {
-            Log.i("loadNextUserIntoImageView", "loading from retrieved list");
+            Timber.i("loadNextUserIntoImageView", "loading from retrieved list");
             User nextUser = nearbyUsers.pop();
             String profilePicUrl = nextUser.getProfilePicUrl();
             Picasso.with(getApplicationContext()).load(profilePicUrl).into(userImage);
         }else{
-            Log.i("loadNextUserIntoImageView", "no users retrieved from server");
+            Timber.i("loadNextUserIntoImageView", "no users retrieved from server");
         }
     }
 
@@ -88,22 +88,20 @@ public class PartnerSelectionActivity extends Activity {
 
     private void setSelectButtonListener() {
         ImageButton selectButton = (ImageButton) findViewById(R.id.selectButton);
-        selectButton.setOnTouchListener(new View.OnTouchListener() {
+        selectButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
+            public void onClick(View view) {
                 loadNextUserIntoImageView();
-                return true;
             }
         });
     }
 
     private void setPassButtonListener() {
         ImageButton passButton = (ImageButton) findViewById(R.id.passButton);
-        passButton.setOnTouchListener(new View.OnTouchListener() {
+        passButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
+            public void onClick(View view) {
                 loadNextUserIntoImageView();
-                return true;
             }
         });
     }
@@ -111,11 +109,10 @@ public class PartnerSelectionActivity extends Activity {
 
     private void setInfoButtonListener() {
         ImageButton passButton = (ImageButton) findViewById(R.id.infoButton);
-        passButton.setOnTouchListener(new View.OnTouchListener() {
+        passButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                Log.i("network", "nearbyUsers: "+ nearbyUsers.toString());
-                return true;
+            public void onClick(View view) {
+                Timber.i("network", "nearbyUsers: " + nearbyUsers.toString());
             }
         });
     }
