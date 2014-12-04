@@ -14,7 +14,7 @@ import com.ideaz.tomorrow.rest.service.RestClient;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-import java.util.ListIterator;
+import java.util.Stack;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -24,16 +24,23 @@ import retrofit.client.Response;
 public class PartnerSelectionActivity extends Activity {
     private ITomorrowService service;
     private ImageView userImage;
-    private List<User> nearbyUsers;
+    private Stack<User> nearbyUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partner_selector);
         service = new RestClient().getApiService();
+        nearbyUsers = new Stack<User>();
         userImage = (ImageView) findViewById(R.id.userImage);
         attachListeners();
-        loadDefaultProfilePic();
+        loadNextUserIntoImageView();
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        service = new RestClient().getApiService();
     }
 
     private void attachListeners() {
@@ -44,30 +51,30 @@ public class PartnerSelectionActivity extends Activity {
 
     private void loadNextUserIntoImageView() {
         Log.i("network", "retrieving nearby users");
-        if(nearbyUsers == null){
+        if(nearbyUsers.isEmpty()){
             service.getUsers(new Callback<List<User>>() {
                 @Override
                 public void success(List<User> users, Response response) {
                     Log.i("network:success", "retrieved nearby users");
-                    nearbyUsers = users;
-                    getNextUser();
+                    nearbyUsers.addAll(users);
+                    displayNextUser();
                 }
 
                 @Override
                 public void failure(RetrofitError retrofitError) {
                     Log.i("network:failure", "failed call, unable to retrieve nearby users");
+                    loadDefaultProfilePic();
                 }
             });
         } else {
-            getNextUser();
+            displayNextUser();
         }
     }
 
-    private void getNextUser() {
-        ListIterator<User> userListIterator = nearbyUsers.listIterator();
-        if(userListIterator.hasNext()) {
+    private void displayNextUser() {
+        if(!nearbyUsers.isEmpty()) {
             Log.i("loadNextUserIntoImageView", "loading from retrieved list");
-            User nextUser = userListIterator.next();
+            User nextUser = nearbyUsers.pop();
             String profilePicUrl = nextUser.getProfilePicUrl();
             Picasso.with(getApplicationContext()).load(profilePicUrl).into(userImage);
         }else{
