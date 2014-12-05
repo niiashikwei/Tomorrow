@@ -42,29 +42,14 @@ public class MainActivity extends Activity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-
                 if(!validProfile()){
                     launchProfileSetup();
                 }
-
-                if(!preferencesValid()){
-                    launchPreferencesSetup();
-                }
-
-                if(preferencesValid() && validProfile()){
-                    launchActivityGetServerData();
-                }
-
             }
 
             @Override
             public void onAnimationRepeat(Animation animation) {}
         });
-    }
-
-    private void launchActivityGetServerData() {
-        Intent intent = new Intent(this, LoadingActivity.class);
-        startActivity(intent);
     }
 
     private void launchProfileSetup() {
@@ -82,7 +67,7 @@ public class MainActivity extends Activity {
     }
 
     private boolean validProfile() {
-        return true;
+        return false;
     }
 
 

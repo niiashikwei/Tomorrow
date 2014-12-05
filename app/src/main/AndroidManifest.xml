@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
         android:allowBackup="true"
@@ -24,9 +27,8 @@
         <activity android:name="com.ideaz.tomorrow.PreferencesActivity"
                   android:label="@string/preferences"/>
         <activity android:name="com.ideaz.tomorrow.ActivityMakerActivity"/>
-        <activity android:name="com.ideaz.tomorrow.ActivityTypeActivity"/>
+        <activity android:name="com.ideaz.tomorrow.ActivitySelectorActivity"/>
         <activity android:name="com.ideaz.tomorrow.PartnerSelectionActivity"/>
-        <activity android:name="com.ideaz.tomorrow.LoadingActivity"/>
         <activity android:name="com.ideaz.tomorrow.ConfirmActivity"/>
     </application>
 
