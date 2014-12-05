@@ -63,19 +63,25 @@ public class ProfileActivity extends Activity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkForValidAge() && checkForValidName()){
+                if(checkForValidName() && checkForValidAge()){
+                    saveProfile();
                     launchActivitySelector();
                 }
             }
         });
     }
 
+    private void saveProfile() {
+        Toast.makeText(getApplicationContext(), "Saving profile information", Toast.LENGTH_SHORT).show();
+        
+    }
+
     private boolean checkForValidName() {
         boolean isNameValid = false;
-        EditText viewById = (EditText) findViewById(R.id.user_age);
+        EditText viewById = (EditText) findViewById(R.id.user_name);
         String name = viewById.getText().toString();
         if(!name.isEmpty()){
-            if (name.length() > 3){
+            if (name.length() > 2){
                 isNameValid = true;
                 Toast.makeText(getApplicationContext(), "Valid Name, good job!", Toast.LENGTH_SHORT).show();
             }else{

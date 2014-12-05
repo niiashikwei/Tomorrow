@@ -15,6 +15,7 @@
         android:id="@+id/user_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="textAutoComplete"
         android:hint="Tap here to enter your name"/>
 
     <EditText

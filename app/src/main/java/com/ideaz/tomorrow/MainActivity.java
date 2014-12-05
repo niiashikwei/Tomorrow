@@ -44,6 +44,8 @@ public class MainActivity extends Activity {
             public void onAnimationEnd(Animation animation) {
                 if(!validProfile()){
                     launchProfileSetup();
+                }else{
+                    launchActivitySelection();
                 }
             }
 
@@ -57,19 +59,14 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
-    private void launchPreferencesSetup() {
-        Intent intent = new Intent(this, PreferencesActivity.class);
+    private void launchActivitySelection() {
+        Intent intent = new Intent(this, ActivitySelectorActivity.class);
         startActivity(intent);
     }
 
-    private boolean preferencesValid() {
+    private boolean validProfile() {
         return true;
     }
-
-    private boolean validProfile() {
-        return false;
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
