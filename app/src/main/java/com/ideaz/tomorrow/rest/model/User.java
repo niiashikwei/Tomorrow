@@ -2,14 +2,23 @@ package com.ideaz.tomorrow.rest.model;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
+import lombok.NonNull;
 
-@Data
 public class User {
 
-    private String name;
-    private Integer age;
+    private final String name;
+    private final Integer age;
 
     @SerializedName("profile_pic_url")
-    private String profilePicUrl;
+    private final String profilePicUrl;
 
+    public User(String name, Integer age, String profilePicUrl) {
+        this.name = name;
+        this.age = age;
+        this.profilePicUrl = profilePicUrl;
+    }
+
+    public String getProfilePicUrl() {
+        return profilePicUrl;
+    }
 }

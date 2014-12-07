@@ -9,17 +9,39 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.ideaz.tomorrow.rest.model.TomorrowActivity;
+import com.ideaz.tomorrow.rest.service.ITomorrowService;
+import com.ideaz.tomorrow.rest.service.RestClient;
+
+import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import timber.log.Timber;
+
+import static org.parceler.guava.collect.Lists.newArrayList;
+
 public class ActivitySelectorActivity extends Activity {
 
     private ListView listview;
+    private ITomorrowService service;
+    private List<TomorrowActivity> activities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_type);
+        service = new RestClient().getApiService();
         listview = (ListView) findViewById(R.id.activity_listview);
-        setUpActivityList();
-        setUpAddActivityButton();
+        activities = newArrayList();
+        setUpListeners();
+        updateAndGetActivitiesList();
+    }
+
+    @Override
+    protected void onStart(){
+        updateAndGetActivitiesList();
     }
 
     private void setUpAddActivityButton() {
@@ -32,15 +54,36 @@ public class ActivitySelectorActivity extends Activity {
         });
     }
 
-    private void setUpActivityList() {
-        String[] values = getAvailableActivities();
-        final ArrayAdapter adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.simple_list, values);
-        listview.setAdapter(adapter);
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    private void setUpListeners() {
+        setupListEvenHandler();
+        setUpAddActivityButton();
+    }
 
+    private void setupListEvenHandler() {
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 launchPartnerSelection();
+            }
+        });
+    }
+
+    private void updateAndGetActivitiesList() {
+        service.getActivities(new Callback<List<TomorrowActivity>>() {
+
+            @Override
+            public void success(List<TomorrowActivity> serverActivities, Response response) {
+                Timber.i("network:success", "successful call, able to retrieve activity list");
+                activities.addAll(serverActivities);
+                List<String> listOfActivities = TomorrowActivity.getActivityNameList(activities);
+                ArrayAdapter adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.simple_list, listOfActivities);
+                listview.setAdapter(adapter);
+            }
+
+            @Override
+            public void failure(RetrofitError retrofitError) {
+                Timber.i("network:failure", "failed call, unable to retrieve activity list");
+                Toast.makeText(getApplicationContext(), "Unable to retrieve activity list!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -56,7 +99,4 @@ public class ActivitySelectorActivity extends Activity {
         Toast.makeText(getApplicationContext(), "Launching Activity!", Toast.LENGTH_SHORT).show();
     }
 
-    private String[] getAvailableActivities() {
-        return new String[] { "Tennis", "Basketball", "Karaoke" };
-    }
 }

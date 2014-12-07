@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion 19
@@ -13,10 +14,17 @@ android {
     }
     buildTypes {
         release {
-            runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            runProguard false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    apt {
+        arguments {
+            resourcePackageName "com.ideaz.tomorrow"
+            androidManifestFile variant.outputs[0].processResources.manifestFile
+        }
+    }
+
 }
 
 dependencies {
@@ -28,4 +36,8 @@ dependencies {
     compile 'com.google.guava:guava:18.0'
     compile 'com.jakewharton.timber:timber:2.5.0'
     provided "org.projectlombok:lombok:1.14.8"
+    apt 'com.squareup.dagger:dagger-compiler:1.1.0'
+    compile 'com.squareup.dagger:dagger:1.1.0'
+    androidTestApt 'com.github.frankiesardo:android-auto-value-processor:0.1'
+    androidTestCompile 'com.github.frankiesardo:android-auto-value:0.1'
 }

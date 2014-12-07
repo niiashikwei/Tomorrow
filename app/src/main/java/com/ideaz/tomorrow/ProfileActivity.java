@@ -11,19 +11,25 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.ideaz.tomorrow.rest.model.User;
+import com.ideaz.tomorrow.rest.service.ITomorrowService;
+import com.ideaz.tomorrow.rest.service.RestClient;
 import com.squareup.picasso.Picasso;
 
 
 public class ProfileActivity extends Activity {
-
+    private ITomorrowService service;
     private static final int RESULT_LOAD_IMAGE = 1;
-    ImageView profilePic;
+    private ImageView profilePic;
+    private User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        service = new RestClient().getApiService();
         profilePic = (ImageView) findViewById(R.id.profile_picture);
+        currentUser = loadUserProfile();
         setNextButtonListener();
         setProfilePictureListener();
     }
@@ -73,7 +79,12 @@ public class ProfileActivity extends Activity {
 
     private void saveProfile() {
         Toast.makeText(getApplicationContext(), "Saving profile information", Toast.LENGTH_SHORT).show();
-        
+        service.saveProfile();
+    }
+
+
+    private User loadUserProfile() {
+        return new User("Tony", 20, "some/url/here");
     }
 
     private boolean checkForValidName() {
