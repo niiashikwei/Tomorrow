@@ -26,7 +26,6 @@ public class ActivitySelectorActivity extends Activity {
 
     private ListView listview;
     private ITomorrowService service;
-    private List<TomorrowActivity> activities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +33,13 @@ public class ActivitySelectorActivity extends Activity {
         setContentView(R.layout.activity_type);
         service = new RestClient().getApiService();
         listview = (ListView) findViewById(R.id.activity_listview);
-        activities = newArrayList();
         setUpListeners();
         updateAndGetActivitiesList();
     }
 
     @Override
     protected void onStart(){
+        super.onStart();
         updateAndGetActivitiesList();
     }
 
@@ -74,8 +73,7 @@ public class ActivitySelectorActivity extends Activity {
             @Override
             public void success(List<TomorrowActivity> serverActivities, Response response) {
                 Timber.i("network:success", "successful call, able to retrieve activity list");
-                activities.addAll(serverActivities);
-                List<String> listOfActivities = TomorrowActivity.getActivityNameList(activities);
+                List<String> listOfActivities = TomorrowActivity.getActivityNameList(serverActivities);
                 ArrayAdapter adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.simple_list, listOfActivities);
                 listview.setAdapter(adapter);
             }
