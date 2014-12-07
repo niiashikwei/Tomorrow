@@ -36,8 +36,8 @@ dependencies {
     compile 'com.google.guava:guava:18.0'
     compile 'com.jakewharton.timber:timber:2.5.0'
     provided "org.projectlombok:lombok:1.14.8"
-    apt 'com.squareup.dagger:dagger-compiler:1.1.0'
-    compile 'com.squareup.dagger:dagger:1.1.0'
+    apt 'com.squareup.dagger:dagger-compiler:1.2.2'
+    compile 'com.squareup.dagger:dagger:1.2.2'
     androidTestApt 'com.github.frankiesardo:android-auto-value-processor:0.1'
     androidTestCompile 'com.github.frankiesardo:android-auto-value:0.1'
 }

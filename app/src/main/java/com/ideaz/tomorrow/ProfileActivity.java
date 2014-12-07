@@ -16,6 +16,8 @@ import com.ideaz.tomorrow.rest.service.ITomorrowService;
 import com.ideaz.tomorrow.rest.service.RestClient;
 import com.squareup.picasso.Picasso;
 
+import javax.inject.Inject;
+
 
 public class ProfileActivity extends Activity {
     private ITomorrowService service;
@@ -27,7 +29,6 @@ public class ProfileActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        service = new RestClient().getApiService();
         profilePic = (ImageView) findViewById(R.id.profile_picture);
         currentUser = loadUserProfile();
         setNextButtonListener();

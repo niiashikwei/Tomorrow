@@ -14,6 +14,8 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 import java.util.Stack;
 
+import javax.inject.Inject;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -30,17 +32,10 @@ public class PartnerSelectionActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partner_selector);
         userImage = (ImageView) findViewById(R.id.userImage);
-        service = new RestClient().getApiService();
         nearbyUsers = new Stack<User>();
         attachListeners();
         loadNextUserIntoImageView();
         Timber.tag("LifeCycles");
-    }
-
-    @Override
-    protected void onStart(){
-        super.onStart();
-        service = new RestClient().getApiService();
     }
 
     private void attachListeners() {
