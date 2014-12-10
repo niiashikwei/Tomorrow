@@ -1,8 +1,6 @@
 package com.ideaz.tomorrow.rest.model;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.NonNull;
 
 public class User {
 

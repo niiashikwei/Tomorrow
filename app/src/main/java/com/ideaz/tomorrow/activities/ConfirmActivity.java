@@ -1,15 +1,17 @@
-package com.ideaz.tomorrow;
+package com.ideaz.tomorrow.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
 
-/**
- * Created by Thoughtworker on 11/6/14.
- */
-public class ActivityMakerActivity extends Activity {
+import com.ideaz.tomorrow.R;
+
+
+public class ConfirmActivity extends Activity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maker);
+        setContentView(R.layout.activity_confirm);
     }
+
 }

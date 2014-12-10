@@ -2,8 +2,6 @@ package com.ideaz.tomorrow.rest.model;
 
 import java.util.List;
 
-import lombok.Data;
-
 import static org.parceler.guava.collect.Lists.newArrayList;
 
 public class TomorrowActivity {

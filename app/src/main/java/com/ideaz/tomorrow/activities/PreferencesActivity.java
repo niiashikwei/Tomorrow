@@ -1,7 +1,9 @@
-package com.ideaz.tomorrow;
+package com.ideaz.tomorrow.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+
+import com.ideaz.tomorrow.R;
 
 
 public class PreferencesActivity extends Activity {

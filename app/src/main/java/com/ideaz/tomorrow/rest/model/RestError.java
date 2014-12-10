@@ -5,19 +5,14 @@ import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
 
-import lombok.Getter;
-import lombok.Setter;
 
 @Parcel
 public class RestError {
     @SerializedName("code")
-    @Getter @Setter
-    private Integer code;
+    protected Integer code;
 
     @SerializedName("error_message")
-    @Getter
-    @Setter
-    private String strMessage;
+    protected String strMessage;
 
     public RestError(){}
 

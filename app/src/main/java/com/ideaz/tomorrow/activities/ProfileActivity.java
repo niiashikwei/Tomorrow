@@ -1,4 +1,4 @@
-package com.ideaz.tomorrow;
+package com.ideaz.tomorrow.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,16 +11,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.ideaz.tomorrow.R;
 import com.ideaz.tomorrow.rest.model.User;
 import com.ideaz.tomorrow.rest.service.ITomorrowService;
-import com.ideaz.tomorrow.rest.service.RestClient;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
 
 public class ProfileActivity extends Activity {
-    private ITomorrowService service;
+    @Inject ITomorrowService service;
     private static final int RESULT_LOAD_IMAGE = 1;
     private ImageView profilePic;
     private User currentUser;
@@ -71,18 +71,18 @@ public class ProfileActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if(checkForValidName() && checkForValidAge()){
-                    saveProfile();
-                    launchActivitySelector();
+                    EditText userName = (EditText) findViewById(R.id.user_name);
+                    String name = userName.getText().toString();
+                    EditText userAge = (EditText) findViewById(R.id.user_age);
+                    Integer age = Integer.valueOf(userAge.getText().toString());
+
+                    Toast.makeText(getApplicationContext(), "Saving profile information", Toast.LENGTH_SHORT).show();
+                    currentUser = service.createUser(new User(name, age, "default/path/to/profile/pic"));
+                    //launchActivitySelector();
                 }
             }
         });
     }
-
-    private void saveProfile() {
-        Toast.makeText(getApplicationContext(), "Saving profile information", Toast.LENGTH_SHORT).show();
-        service.saveProfile();
-    }
-
 
     private User loadUserProfile() {
         return new User("Tony", 20, "some/url/here");
@@ -126,7 +126,7 @@ public class ProfileActivity extends Activity {
     }
 
     private void launchActivitySelector() {
-        Intent intent = new Intent(this, ActivitySelectorActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ActivitySelectorActivity.class);
         startActivity(intent);
     }
 

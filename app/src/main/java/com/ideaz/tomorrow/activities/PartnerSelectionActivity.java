@@ -1,4 +1,4 @@
-package com.ideaz.tomorrow;
+package com.ideaz.tomorrow.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.ideaz.tomorrow.R;
 import com.ideaz.tomorrow.rest.model.User;
 import com.ideaz.tomorrow.rest.service.ITomorrowService;
-import com.ideaz.tomorrow.rest.service.RestClient;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -23,7 +23,7 @@ import timber.log.Timber;
 
 
 public class PartnerSelectionActivity extends Activity {
-    private ITomorrowService service;
+    @Inject ITomorrowService service;
     private ImageView userImage;
     private Stack<User> nearbyUsers;
 

@@ -9,12 +9,13 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
+        android:name=".TomorrowApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
-            android:name="com.ideaz.tomorrow.MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,14 +23,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.ideaz.tomorrow.ProfileActivity"
+        <activity android:name=".activities.ProfileActivity"
                   android:label="@string/profile"/>
-        <activity android:name="com.ideaz.tomorrow.PreferencesActivity"
+        <activity android:name=".activities.PreferencesActivity"
                   android:label="@string/preferences"/>
-        <activity android:name="com.ideaz.tomorrow.ActivityMakerActivity"/>
-        <activity android:name="com.ideaz.tomorrow.ActivitySelectorActivity"/>
-        <activity android:name="com.ideaz.tomorrow.PartnerSelectionActivity"/>
-        <activity android:name="com.ideaz.tomorrow.ConfirmActivity"/>
+        <activity android:name=".activities.ActivityMakerActivity"/>
+        <activity android:name=".activities.ActivitySelectorActivity"/>
+        <activity android:name=".activities.PartnerSelectionActivity"/>
+        <activity android:name=".activities.ConfirmActivity"/>
     </application>
 
 </manifest>

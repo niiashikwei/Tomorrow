@@ -1,4 +1,4 @@
-package com.ideaz.tomorrow;
+package com.ideaz.tomorrow.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+
+import com.ideaz.tomorrow.R;
 
 
 public class MainActivity extends Activity {
@@ -23,6 +25,12 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onStart(){
+        super.onStart();
+        kickOffAnimation();
+    }
+
+    @Override
+    protected void onResume(){
         super.onResume();
         kickOffAnimation();
     }
@@ -55,17 +63,17 @@ public class MainActivity extends Activity {
     }
 
     private void launchProfileSetup() {
-        Intent intent = new Intent(this, ProfileActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
         startActivity(intent);
     }
 
     private void launchActivitySelection() {
-        Intent intent = new Intent(this, ActivitySelectorActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ActivitySelectorActivity.class);
         startActivity(intent);
     }
 
     private boolean validProfile() {
-        return true;
+        return false;
     }
 
     @Override

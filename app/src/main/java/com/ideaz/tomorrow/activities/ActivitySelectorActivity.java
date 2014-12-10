@@ -1,4 +1,4 @@
-package com.ideaz.tomorrow;
+package com.ideaz.tomorrow.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,29 +9,28 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.ideaz.tomorrow.R;
 import com.ideaz.tomorrow.rest.model.TomorrowActivity;
 import com.ideaz.tomorrow.rest.service.ITomorrowService;
-import com.ideaz.tomorrow.rest.service.RestClient;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import timber.log.Timber;
 
-import static org.parceler.guava.collect.Lists.newArrayList;
-
 public class ActivitySelectorActivity extends Activity {
 
+    @Inject ITomorrowService service;
     private ListView listview;
-    private ITomorrowService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_type);
-        service = new RestClient().getApiService();
         listview = (ListView) findViewById(R.id.activity_listview);
         setUpListeners();
         updateAndGetActivitiesList();
@@ -88,7 +87,7 @@ public class ActivitySelectorActivity extends Activity {
 
     private void launchPartnerSelection() {
         Toast.makeText(getApplicationContext(), "Clicked on item, launching partner selection!", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, PartnerSelectionActivity.class);
+        Intent intent = new Intent(getApplicationContext(), PartnerSelectionActivity.class);
         startActivity(intent);
     }
 
