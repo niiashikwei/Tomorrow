@@ -7,6 +7,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.ideaz.tomorrow.R;
+import com.ideaz.tomorrow.TomorrowApp;
 import com.ideaz.tomorrow.rest.model.User;
 import com.ideaz.tomorrow.rest.service.ITomorrowService;
 import com.squareup.picasso.Picasso;
@@ -30,6 +31,7 @@ public class PartnerSelectionActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((TomorrowApp) getApplication()).inject(this);
         setContentView(R.layout.activity_partner_selector);
         userImage = (ImageView) findViewById(R.id.userImage);
         nearbyUsers = new Stack<User>();

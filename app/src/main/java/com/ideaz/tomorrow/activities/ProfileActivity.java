@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ideaz.tomorrow.R;
+import com.ideaz.tomorrow.TomorrowApp;
 import com.ideaz.tomorrow.rest.model.User;
 import com.ideaz.tomorrow.rest.service.ITomorrowService;
 import com.squareup.picasso.Picasso;
@@ -29,6 +30,7 @@ public class ProfileActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        ((TomorrowApp) getApplication()).inject(this);
         profilePic = (ImageView) findViewById(R.id.profile_picture);
         currentUser = loadUserProfile();
         setNextButtonListener();

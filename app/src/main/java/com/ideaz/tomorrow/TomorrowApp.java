@@ -18,4 +18,8 @@ public class TomorrowApp extends Application {
     private List<Object> getModules() {
         return Arrays.<Object>asList(new AppModule(this));
     }
+
+    public void inject(Object object) {
+        objectGraph.inject(object);
+    }
 }

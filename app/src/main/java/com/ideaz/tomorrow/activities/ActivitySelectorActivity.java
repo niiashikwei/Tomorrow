@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.ideaz.tomorrow.R;
+import com.ideaz.tomorrow.TomorrowApp;
 import com.ideaz.tomorrow.rest.model.TomorrowActivity;
 import com.ideaz.tomorrow.rest.service.ITomorrowService;
 
@@ -30,6 +31,7 @@ public class ActivitySelectorActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((TomorrowApp) getApplication()).inject(this);
         setContentView(R.layout.activity_type);
         listview = (ListView) findViewById(R.id.activity_listview);
         setUpListeners();
