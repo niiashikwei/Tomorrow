@@ -19,6 +19,11 @@ import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import timber.log.Timber;
+
 
 public class ProfileActivity extends Activity {
     @Inject ITomorrowService service;
@@ -77,17 +82,28 @@ public class ProfileActivity extends Activity {
                     String name = userName.getText().toString();
                     EditText userAge = (EditText) findViewById(R.id.user_age);
                     Integer age = Integer.valueOf(userAge.getText().toString());
+                    User newUser = new User(name, age, "chicago", "default/path/to/profile/pic");
 
-                    Toast.makeText(getApplicationContext(), "Saving profile information", Toast.LENGTH_SHORT).show();
-                    currentUser = service.createUser(new User(name, age, "default/path/to/profile/pic"));
-                    //launchActivitySelector();
+                    service.createUser(newUser, new Callback<User>() {
+                        @Override
+                        public void success(User user, Response response) {
+                            Toast.makeText(getApplicationContext(), "user created on server: " + user.toString(), Toast.LENGTH_SHORT).show();
+                            currentUser = user;
+                            //launchActivitySelector();
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            Toast.makeText(getApplicationContext(), "user creation failed: " + error.getResponse(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });
     }
 
     private User loadUserProfile() {
-        return new User("Tony", 20, "some/url/here");
+        return new User("Tony", 20, "chicago", "some/url/here");
     }
 
     private boolean checkForValidName() {

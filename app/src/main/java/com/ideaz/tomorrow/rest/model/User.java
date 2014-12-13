@@ -6,13 +6,15 @@ public class User {
 
     private final String name;
     private final Integer age;
-
+    @SerializedName("current_city")
+    private final String currentCity;
     @SerializedName("profile_pic_url")
     private final String profilePicUrl;
 
-    public User(String name, Integer age, String profilePicUrl) {
+    public User(String name, Integer age, String currentCity, String profilePicUrl) {
         this.name = name;
         this.age = age;
+        this.currentCity = currentCity;
         this.profilePicUrl = profilePicUrl;
     }
 
