@@ -2,23 +2,36 @@ package com.ideaz.tomorrow.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.Toast;
 
 import com.ideaz.tomorrow.R;
+import com.ideaz.tomorrow.TomorrowApp;
+import com.ideaz.tomorrow.rest.model.User;
+import com.ideaz.tomorrow.rest.service.ITomorrowService;
+
+import javax.inject.Inject;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class MainActivity extends Activity {
+    @Inject ITomorrowService service;
     protected AlphaAnimation fadeIn = new AlphaAnimation(0.0f , 1.0f);
     protected AlphaAnimation fadeOut = new AlphaAnimation( 1.0f , 0.0f);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((TomorrowApp) getApplication()).inject(this);
         setContentView(R.layout.activity_main);
         kickOffAnimation();
     }
@@ -50,10 +63,13 @@ public class MainActivity extends Activity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                if(!validProfile()){
-                    launchProfileSetup();
+                SharedPreferences settings = getSharedPreferences(User.USER_ID, 0);
+                Integer userId = settings.getInt(User.USER_ID, User.NO_LOCAL_USER);
+                if (userId != User.NO_LOCAL_USER){
+                    verifyCurrentUserOnServer(userId);
+
                 }else{
-                    launchActivitySelection();
+                    launchProfileSetup();
                 }
             }
 
@@ -62,18 +78,26 @@ public class MainActivity extends Activity {
         });
     }
 
+    private void verifyCurrentUserOnServer(Integer userId) {
+        service.getUser(userId, new Callback<User>() {
+            @Override
+            public void success(User user, Response response) {
+                Toast.makeText(getApplicationContext(), "Welcome back " + user.getName(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), ActivitySelectorActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(getApplicationContext(), "User doesn't exist on server", Toast.LENGTH_SHORT).show();
+                launchProfileSetup();
+            }
+        });
+    }
+
     private void launchProfileSetup() {
         Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
         startActivity(intent);
-    }
-
-    private void launchActivitySelection() {
-        Intent intent = new Intent(getApplicationContext(), ActivitySelectorActivity.class);
-        startActivity(intent);
-    }
-
-    private boolean validProfile() {
-        return false;
     }
 
     @Override

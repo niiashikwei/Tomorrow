@@ -25,6 +25,13 @@
         android:layout_height="wrap_content"
         android:hint="Tap here to enter your age"/>
 
+    <EditText
+        android:id="@+id/current_city_view"
+        android:inputType="textAutoComplete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tap here to enter your city"/>
+
     <ImageButton
         android:id="@+id/next_button"
         android:layout_width="match_parent"

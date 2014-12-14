@@ -7,11 +7,13 @@ import java.util.List;
 
 import retrofit.Callback;
 import retrofit.http.Body;
-import retrofit.http.Field;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.Path;
 
 public interface ITomorrowService {
+    @GET("/api/v1/user/{id}")
+    public void getUser(@Path("id") Integer userId, Callback<User> cb);
 
     @GET("/api/v1/user")
     public void getUsers(Callback<List<User>> cb);

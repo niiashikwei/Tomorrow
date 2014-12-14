@@ -2,6 +2,7 @@ package com.ideaz.tomorrow.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,22 +23,25 @@ import javax.inject.Inject;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import timber.log.Timber;
 
 
 public class ProfileActivity extends Activity {
     @Inject ITomorrowService service;
     private static final int RESULT_LOAD_IMAGE = 1;
-    private ImageView profilePic;
-    private User currentUser;
+    ImageView profilePicView;
+    EditText userAgeView;
+    EditText userNameView;
+    EditText currentCityView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         ((TomorrowApp) getApplication()).inject(this);
-        profilePic = (ImageView) findViewById(R.id.profile_picture);
-        currentUser = loadUserProfile();
+        currentCityView = (EditText) findViewById(R.id.current_city_view);
+        userNameView = (EditText) findViewById(R.id.user_name);
+        userAgeView = (EditText) findViewById(R.id.user_age);
+        profilePicView = (ImageView) findViewById(R.id.profile_picture);
         setNextButtonListener();
         setProfilePictureListener();
     }
@@ -68,7 +72,7 @@ public class ProfileActivity extends Activity {
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-            Picasso.with(getApplicationContext()).load(picturePath).into(profilePic);
+            Picasso.with(getApplicationContext()).load(picturePath).into(profilePicView);
         }
     }
 
@@ -78,18 +82,21 @@ public class ProfileActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if(checkForValidName() && checkForValidAge()){
-                    EditText userName = (EditText) findViewById(R.id.user_name);
-                    String name = userName.getText().toString();
-                    EditText userAge = (EditText) findViewById(R.id.user_age);
-                    Integer age = Integer.valueOf(userAge.getText().toString());
-                    User newUser = new User(name, age, "chicago", "default/path/to/profile/pic");
+                    String name = userNameView.getText().toString();
+                    String currentCity = currentCityView.getText().toString();
+                    Integer age = Integer.valueOf(userAgeView.getText().toString());
+                    User newUser = new User(name, age, currentCity, "default/path/to/profile/pic");
 
                     service.createUser(newUser, new Callback<User>() {
                         @Override
                         public void success(User user, Response response) {
                             Toast.makeText(getApplicationContext(), "user created on server: " + user.toString(), Toast.LENGTH_SHORT).show();
-                            currentUser = user;
-                            //launchActivitySelector();
+                            SharedPreferences settings = getSharedPreferences("userId", 0);
+                            SharedPreferences.Editor editor = settings.edit();
+                            editor.putInt(User.USER_ID, user.getId());
+                            editor.commit();
+                            Intent intent = new Intent(getApplicationContext(), ActivitySelectorActivity.class);
+                            startActivity(intent);
                         }
 
                         @Override
@@ -100,10 +107,6 @@ public class ProfileActivity extends Activity {
                 }
             }
         });
-    }
-
-    private User loadUserProfile() {
-        return new User("Tony", 20, "chicago", "some/url/here");
     }
 
     private boolean checkForValidName() {
@@ -142,11 +145,5 @@ public class ProfileActivity extends Activity {
         }
         return isValidAge;
     }
-
-    private void launchActivitySelector() {
-        Intent intent = new Intent(getApplicationContext(), ActivitySelectorActivity.class);
-        startActivity(intent);
-    }
-
 
 }

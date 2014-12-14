@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ideaz.tomorrow.activities.ActivitySelectorActivity;
+import com.ideaz.tomorrow.activities.MainActivity;
 import com.ideaz.tomorrow.activities.PartnerSelectionActivity;
 import com.ideaz.tomorrow.activities.ProfileActivity;
 import com.ideaz.tomorrow.rest.model.adapters.ItemTypeAdapterFactory;
@@ -23,7 +24,8 @@ import retrofit.converter.GsonConverter;
                 TomorrowApp.class,
                 PartnerSelectionActivity.class,
                 ProfileActivity.class,
-                ActivitySelectorActivity.class
+                ActivitySelectorActivity.class,
+                MainActivity.class
         },
         library = true
 )
