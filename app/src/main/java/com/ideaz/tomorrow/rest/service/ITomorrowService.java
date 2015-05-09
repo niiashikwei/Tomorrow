@@ -24,4 +24,7 @@ public interface ITomorrowService {
     @GET("/api/v1/activity")
     public void getActivities(Callback<List<TomorrowActivity>> cb);
 
+    @POST("/api/v1/activity")
+    public void createActivity(@Body TomorrowActivity tomorrowActivity , Callback<TomorrowActivity> cb);
+
 }

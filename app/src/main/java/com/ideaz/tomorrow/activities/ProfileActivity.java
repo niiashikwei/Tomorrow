@@ -32,16 +32,18 @@ public class ProfileActivity extends Activity {
     EditText userAgeView;
     EditText userNameView;
     EditText currentCityView;
+    EditText activityInterestView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         ((TomorrowApp) getApplication()).inject(this);
-        currentCityView = (EditText) findViewById(R.id.current_city_view);
+        profilePicView = (ImageView) findViewById(R.id.profile_picture);
         userNameView = (EditText) findViewById(R.id.user_name);
         userAgeView = (EditText) findViewById(R.id.user_age);
-        profilePicView = (ImageView) findViewById(R.id.profile_picture);
+        activityInterestView = (EditText) findViewById(R.id.activity_interest);
+        currentCityView = (EditText) findViewById(R.id.current_city_view);
         setNextButtonListener();
         setProfilePictureListener();
     }
@@ -85,13 +87,14 @@ public class ProfileActivity extends Activity {
                     String name = userNameView.getText().toString();
                     String currentCity = currentCityView.getText().toString();
                     Integer age = Integer.valueOf(userAgeView.getText().toString());
+                    String activityInterest = activityInterestView.getText().toString();
                     User newUser = new User(name, age, currentCity, "default/path/to/profile/pic");
 
                     service.createUser(newUser, new Callback<User>() {
                         @Override
                         public void success(User user, Response response) {
                             Toast.makeText(getApplicationContext(), "user created on server: " + user.toString(), Toast.LENGTH_SHORT).show();
-                            SharedPreferences settings = getSharedPreferences("userId", 0);
+                            SharedPreferences settings = getSharedPreferences(TomorrowApp.SETTINGS, 0);
                             SharedPreferences.Editor editor = settings.edit();
                             editor.putInt(User.USER_ID, user.getId());
                             editor.commit();

@@ -4,11 +4,12 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ideaz.tomorrow.activities.ActivityCreatorActivity;
 import com.ideaz.tomorrow.activities.ActivitySelectorActivity;
 import com.ideaz.tomorrow.activities.MainActivity;
 import com.ideaz.tomorrow.activities.PartnerSelectionActivity;
 import com.ideaz.tomorrow.activities.ProfileActivity;
-import com.ideaz.tomorrow.rest.model.adapters.ItemTypeAdapterFactory;
+import com.ideaz.tomorrow.rest.service.adapters.ItemTypeAdapterFactory;
 import com.ideaz.tomorrow.rest.service.ITomorrowService;
 import com.ideaz.tomorrow.rest.service.SessionRequestInterceptor;
 
@@ -22,14 +23,16 @@ import retrofit.converter.GsonConverter;
 @Module(
         injects = {
                 TomorrowApp.class,
+                MainActivity.class,
                 PartnerSelectionActivity.class,
                 ProfileActivity.class,
                 ActivitySelectorActivity.class,
-                MainActivity.class
+                ActivityCreatorActivity.class
         },
         library = true
 )
 public class AppModule {
+//    private static final String BASE_URL = "https://tomorrow-server.herokuapp.com/";
     private static final String BASE_URL = "http://10.0.2.2:3000";
 
     private TomorrowApp tomorrowApp;

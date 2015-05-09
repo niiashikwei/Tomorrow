@@ -1,4 +1,4 @@
-package com.ideaz.tomorrow.rest.model.adapters;
+package com.ideaz.tomorrow.rest.service.adapters;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;

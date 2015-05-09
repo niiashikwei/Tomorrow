@@ -2,6 +2,8 @@ package com.ideaz.tomorrow.rest.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class User {
 
     public static String USER_ID = "userId";
@@ -21,19 +23,23 @@ public class User {
         this.profilePicUrl = profilePicUrl;
     }
 
+    public User(String name, Integer age, String currentCity, String profilePicUrl, Integer id) {
+        this.name = name;
+        this.age = age;
+        this.currentCity = currentCity;
+        this.profilePicUrl = profilePicUrl;
+        this.id = id;
+    }
+
     public String getProfilePicUrl() {
         return profilePicUrl;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
+    }
+
+    public Integer getId() {
+        return id;
     }
 }

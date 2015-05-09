@@ -7,6 +7,7 @@ import java.util.List;
 import dagger.ObjectGraph;
 
 public class TomorrowApp extends Application {
+    public static final String SETTINGS = "tomorrow_settings";
     private ObjectGraph objectGraph;
 
     @Override public void onCreate() {

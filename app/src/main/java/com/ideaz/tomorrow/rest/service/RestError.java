@@ -1,4 +1,4 @@
-package com.ideaz.tomorrow.rest.model;
+package com.ideaz.tomorrow.rest.service;
 
 
 import com.google.gson.annotations.SerializedName;

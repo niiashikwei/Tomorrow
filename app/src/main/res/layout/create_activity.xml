@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/activity_picture"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.4"
+        android:padding="20dp"
+        android:src="@drawable/activity_image_default"/>
+
+    <EditText
+        android:id="@+id/activity_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/activity_picture"
+        android:inputType="textAutoComplete"
+        android:padding="20dp"
+        android:hint="Tap here to enter activity name"/>
+
+    <EditText
+        android:id="@+id/min_participants"
+        android:layout_width="match_parent"
+        android:layout_below="@id/activity_name"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:padding="20dp"
+        android:hint="Tap here to enter minimum participants"/>
+
+    <EditText
+        android:id="@+id/max_participants"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/min_participants"
+        android:inputType="number"
+        android:padding="20dp"
+        android:hint="Tap here to enter maximum participants"/>
+
+    <ImageButton
+        android:id="@+id/next_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/max_participants"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/next_button"
+        android:padding="20dp"/>
+</LinearLayout>

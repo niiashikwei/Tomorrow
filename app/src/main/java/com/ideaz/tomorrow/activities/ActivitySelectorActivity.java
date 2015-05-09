@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ public class ActivitySelectorActivity extends Activity {
 
     @Inject ITomorrowService service;
     private ListView listview;
+    private ImageButton addActivityButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,7 @@ public class ActivitySelectorActivity extends Activity {
         ((TomorrowApp) getApplication()).inject(this);
         setContentView(R.layout.activity_type);
         listview = (ListView) findViewById(R.id.activity_listview);
+        addActivityButton = (ImageButton) findViewById(R.id.add_activity_button);
         setUpListeners();
         updateAndGetActivitiesList();
     }
@@ -45,25 +48,28 @@ public class ActivitySelectorActivity extends Activity {
     }
 
     private void setUpAddActivityButton() {
-        View addActivityButton = findViewById(R.id.add_activity_button);
         addActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchAddActivity();
+                Toast.makeText(getApplicationContext(), "Clicked on new activity, launching activity creator!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), ActivityCreatorActivity.class);
+                startActivity(intent);
             }
         });
     }
 
     private void setUpListeners() {
-        setupListEvenHandler();
+        setupListEventHandler();
         setUpAddActivityButton();
     }
 
-    private void setupListEvenHandler() {
+    private void setupListEventHandler() {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                launchPartnerSelection();
+                Toast.makeText(getApplicationContext(), "Clicked on item, launching partner selection!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), PartnerSelectionActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -87,15 +93,5 @@ public class ActivitySelectorActivity extends Activity {
         });
     }
 
-    private void launchPartnerSelection() {
-        Toast.makeText(getApplicationContext(), "Clicked on item, launching partner selection!", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(getApplicationContext(), PartnerSelectionActivity.class);
-        startActivity(intent);
-    }
-
-
-    private void launchAddActivity() {
-        Toast.makeText(getApplicationContext(), "Launching Activity!", Toast.LENGTH_SHORT).show();
-    }
 
 }
