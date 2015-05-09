@@ -63,7 +63,7 @@ public class MainActivity extends Activity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                SharedPreferences settings = getSharedPreferences(User.USER_ID, 0);
+                SharedPreferences settings = getSharedPreferences(TomorrowApp.SETTINGS, 0);
                 Integer userId = settings.getInt(User.USER_ID, User.NO_LOCAL_USER);
                 if (userId != User.NO_LOCAL_USER){
                     verifyCurrentUserOnServer(userId);
